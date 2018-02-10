@@ -19,13 +19,13 @@ if(isset($_GET['lon'])){
 }
 
 $sparqlquery = "
-
 PREFIX dc: <http://purl.org/dc/elements/1.1/>
 PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
 select ?kaart ?img ?x ?y ?title {
   ?kaart dct:spatial ?spatial . 
   ?kaart foaf:depiction ?img .
@@ -43,9 +43,9 @@ limit " . $count . "
 ";
 
 
-$url = "https://api.data.adamlink.nl/datasets/menno/alles/services/alles/sparql?default-graph-uri=&query=" . urlencode($sparqlquery) . "&format=application%2Fsparql-results%2Bjson&timeout=120000&debug=on";
+$url = "https://api.data.adamlink.nl/datasets/AdamNet/all/services/endpoint/sparql?default-graph-uri=&query=" . urlencode($sparqlquery) . "&format=application%2Fsparql-results%2Bjson&timeout=120000&debug=on";
 
-$endpointurl = "https://data.adamlink.nl/menno/alles/services/alles#query=" . urlencode($sparqlquery) . "&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&endpoint=https%3A%2F%2Fdata.adamlink.nl%2F_api%2Fdatasets%2Fmenno%2Falles%2Fservices%2Falles%2Fsparql&requestMethod=POST&tabTitle=Query&headers=%7B%7D&outputFormat=table";
+$endpointurl = "https://data.adamlink.nl/AdamNet/all/services/endpoint#query=" . urlencode($sparqlquery) . "&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&endpoint=https%3A%2F%2Fdata.adamlink.nl%2F_api%2Fdatasets%2Fmenno%2Falles%2Fservices%2Falles%2Fsparql&requestMethod=POST&tabTitle=Query&headers=%7B%7D&outputFormat=table";
 
 
 //echo '<a target="_blank" href="' . $url . '">' . $url . '</a>';
