@@ -60,6 +60,15 @@
 			font-size: 28px;
 			margin-top: 24px;
 		}
+		#mapcontainer{
+			text-align: center;
+		}
+		#crosshair{
+			z-index: 100000;
+			position: absolute;
+			margin-left: -38px;
+			margin-top: 106px;
+		}
 	</style>
 
 	
@@ -70,7 +79,7 @@
 <div class="row">
 	<div class="col-md-5">
 
-		<h1>Wanna be mapped?</h1>
+		<h1>Want to be mapped?</h1>
     	
     	<!--
     	<select name="creator" class="form-control">
@@ -90,7 +99,10 @@
 
     	<button id="searchbutton" class="">Map Me!</button>
 
-    	<div id='map'></div>
+    	<div id="mapcontainer">
+			<img id="crosshair" src="crosshair.png" />
+	    	<div id='map'></div>
+		</div>
 
     	<div id="query"></div>
     </div>
@@ -116,7 +128,7 @@
 <script>
 	var map = L.map('map',{
 		attributionControl: false
-	}).setView([52.370216, 4.895168], 15);
+	}).setView([52.381206, 4.890568], 15);
 
 	L.tileLayer('//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
 		maxZoom: 20,
