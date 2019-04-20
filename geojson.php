@@ -30,7 +30,7 @@ select ?kaart ?img ?x ?y ?title {
   ?kaart dct:spatial ?spatial . 
   ?kaart foaf:depiction ?img .
   ?kaart dc:title ?title .
-  ?spatial dc:type \"outline\"^^xsd:string .
+  ?spatial dc:type \"outline\" .
   ?spatial geo:hasGeometry/geo:asWKT ?wktmap .
   ?spatial wdt:P2046 ?km2 .
   bind (bif:st_geomfromtext(\"POINT(" . $lon . " " . $lat . ")\") as ?x)
@@ -43,18 +43,29 @@ limit " . $count . "
 ";
 
 
-$url = "https://api.data.adamlink.nl/datasets/AdamNet/all/services/endpoint/sparql?default-graph-uri=&query=" . urlencode($sparqlquery) . "&format=application%2Fsparql-results%2Bjson&timeout=120000&debug=on";
+$url = "https://api.druid.datalegend.net/datasets/adamnet/all/services/endpoint/sparql?query=" . urlencode($sparqlquery) . "";
 
-$endpointurl = "https://data.adamlink.nl/AdamNet/all/services/endpoint#query=" . urlencode($sparqlquery) . "&contentTypeConstruct=text%2Fturtle&contentTypeSelect=application%2Fsparql-results%2Bjson&endpoint=https%3A%2F%2Fdata.adamlink.nl%2F_api%2Fdatasets%2Fmenno%2Falles%2Fservices%2Falles%2Fsparql&requestMethod=POST&tabTitle=Query&headers=%7B%7D&outputFormat=table";
+$querylink = "https://druid.datalegend.net/AdamNet/all/sparql/endpoint#query=" . urlencode($sparqlquery) . "&endpoint=https%3A%2F%2Fdruid.datalegend.net%2F_api%2Fdatasets%2FAdamNet%2Fall%2Fservices%2Fendpoint%2Fsparql&requestMethod=POST&outputFormat=table";
 
 
-//echo '<a target="_blank" href="' . $url . '">' . $url . '</a>';
+// Druid does not like url parameters, send accept header instead
+$opts = [
+    "http" => [
+        "method" => "GET",
+        "header" => "Accept: application/sparql-results+json\r\n"
+    ]
+];
 
-$json = file_get_contents($url);
+$context = stream_context_create($opts);
+
+// Open the file using the HTTP headers set above
+$json = file_get_contents($url, false, $context);
+
+
 
 $data = json_decode($json,true);
 
-$fc = array("type"=>"FeatureCollection","query" => $endpointurl, "features"=>array());
+$fc = array("type"=>"FeatureCollection","query" => $querylink, "features"=>array());
 
 
 $occs = array();
